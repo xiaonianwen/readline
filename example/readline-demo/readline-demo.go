@@ -14,10 +14,18 @@ import (
 
 func usage(w io.Writer) {
 	io.WriteString(w, "commands:\n")
+	//Tree 打印前缀
+	// WriteString 将字符串 s 写入到 w 中
+	// 返回写入的字节数和写入过程中遇到的任何错误
+	// 如果 w 实现了 WriteString 方法
+	// 则调用 w 的 WriteString 方法将 s 写入 w 中
+	// 否则，将 s 转换为 []byte
+	// 然后调用 w.Write 方法将数据写入 w 中
 	io.WriteString(w, completer.Tree("    "))
 }
 
 // Function constructor - constructs new function for listing given directory
+//返回一个文件列表函数
 func listFiles(path string) func(string) []string {
 	return func(line string) []string {
 		names := make([]string, 0)
@@ -72,8 +80,9 @@ func filterInput(r rune) (rune, bool) {
 
 func main() {
 	l, err := readline.NewEx(&readline.Config{
-		Prompt:          "\033[31m»\033[0m ",
-		HistoryFile:     "/tmp/readline.tmp",
+		Prompt:      "\033[31m»\033[0m ",
+		HistoryFile: "/tmp/readline.tmp",
+		//命令补全功能
 		AutoComplete:    completer,
 		InterruptPrompt: "^C",
 		EOFPrompt:       "exit",
